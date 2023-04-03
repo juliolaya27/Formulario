@@ -5,9 +5,55 @@ import Form from "./components/Form"
 import useForm from "./hooks/useForm"
 import Textarea from "./components/Textarea"
 import Select from "./components/Select"
+import { useRef } from "react"
 
 
 const App = () => {
+    
+  const form = useRef()
+
+  const submit = e => {
+    e.preventDefault()
+    const f = form.current 
+
+    const data = {
+      fullname: f.fullname.value,
+      mail: f.mail.value,
+      age: f.age.value,
+      ranking: f.ranking.value,
+      obs: f.obs.value,
+      country: f.country.value,
+      active: f.active.checked
+    }
+    console.log(data)
+  }
+
+  return (
+
+    <Form submit={submit} formRef={form}>
+      <Field type="text" name="fullname" value="" label="Nombres" />
+      <Field type="email" name="mail" value="" label="Correo Electronico" />
+      <Field type="number" name="age" value="" label="Edad" />
+      <Field type="range" name="ranking" value="" label="Calificacion" />
+      <Textarea name="obs" value="" label="Observaciones"/>
+      <Select name="country" label="Pais" options={
+        [
+          {val:"ve", content:"Venezuela"},
+          {val:"eu", content:"United States"},
+          {val:"pe", content:"Peru"}
+        ]
+      }  />
+    
+      <Field type="checkbox" name="active" checked={true} label="¿ Avtivo ?"/>
+      <Submit value="Guardar" />
+    </Form>
+
+  )
+
+}
+
+export default App
+
 
   // se crea un useState con un objeto de dos atributos email y password
   // data y setData. data representa el valor actual del estado y setData es una función que se utiliza para actualizar el valor del estado.
@@ -16,7 +62,6 @@ const App = () => {
   // const data = ({ email: "", password: "" })
   // const loginForm = useRef()
 
-  const [data, loginForm, submit] = useForm({email: "",password: ""})
 
   // recibe un evento y luego hace un setDta
   //lo primero que hace es respetar los objetos que no quiero modificar utilizando ...data
@@ -41,28 +86,4 @@ const App = () => {
   //el onSubmit 
   //en los imput donde se guarda la informacion de correo y contrasena hay un value que es el valor del campo
   //el onchage nos sirve para cambiar el valor que hay en ese value
-  return (
 
-    <Form submit={submit} formRef={loginForm}>
-      <Field type="text" name="fullname" value={data.password} label="Nombres" />
-      <Field type="email" name="mail" value={data.email} label="Correo Electronico" />
-      <Field type="number" name="age" value={data.password} label="Edad" />
-      <Field type="range" name="ranking" value={data.password} label="Calificacion" />
-      <Field type="password" value={data.password} label="Contrasena" />
-      <Textarea name="obs" value={data.obs} label="Observaciones"/>
-      <Select name="country" label="Pais" options={
-        [
-          {val:"ve", content:"Venezuela"},
-          {val:"eu", content:"United States"},
-          {val:"pe", content:"Peru"}
-        ]
-      }  />
-      <Field type="checkbox" name="active" checked={true} label="¿ Avtivo ?"/>
-      <Submit value="Guardar" />
-    </Form>
-
-  )
-
-}
-
-export default App

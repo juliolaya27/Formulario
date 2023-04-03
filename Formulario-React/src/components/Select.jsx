@@ -1,4 +1,4 @@
-const Select = ({ value, label, name, options=[] }) => {
+const Select = ({ value="", label, name, options=[] }) => {
     return (
 
         <div className="ed-item form-item">
